@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">FindMe</string>
+
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+    <array name="Campuses">
+        <item>Select your Campus</item>
+        <item>CUI Sahiwal</item>
+        <item>CUI Vehari</item>
+        <item>CUI Islamabad</item>
+        <item>CUI Lahore</item>
+        <item>CUI Abottabad</item>
+    </array>
+
+    <array name="Location">
+        <item>Location</item>
+        <item>Lahore</item>
+        <item>Karachi</item>
+        <item>Sahiwal</item>
+        <item>Faisalabad</item>
+        <item>Multan</item>
+    </array>
+
+    <array name="qualifications">
+        <item>Select your Latest Qualification</item>
+        <item>MS/MPhil</item>
+        <item>PhD</item>
+    </array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
