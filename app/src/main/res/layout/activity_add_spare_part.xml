@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"
+        android:id="@+id/ivProduct"
+        android:src="@drawable/image_default" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:inputType="text"
+        android:layout_marginRight="10dp"
+        android:hint="Product Name"
+        android:background="@android:drawable/editbox_background_normal"
+        android:id="@+id/etaspPName"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginRight="10dp"
+        android:hint="About "
+        android:id="@+id/etaspDesc"/>
+
+    <EditText
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        android:hint="Product Price"
+        android:id="@+id/etaspPPrice"/>
+
+    <EditText
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        android:hint="Product Type"
+        android:id="@+id/etaspPType"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:inputType="text"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        android:hint="Product Model"
+        android:id="@+id/etaspPModel"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_marginRight="10dp"
+        android:hint="Work Shop Name"
+        android:id="@+id/etaspWorkShopName"/>
+    <Spinner
+        android:id="@+id/spinnerLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:layout_gravity="center"
+        android:padding="8dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_btn"
+        android:paddingLeft="10dp"
+        android:id="@+id/btnAddSparePart"
+        android:paddingRight="10dp"
+        android:text="Add Spare Part" />
+
+</LinearLayout>

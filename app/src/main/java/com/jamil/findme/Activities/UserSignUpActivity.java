@@ -19,8 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.Models.User;
+import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.R;
 import com.jamil.findme.Utilities.FirebaseDatabaseHelper;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -31,7 +31,6 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
     private static final String TAG = "TAG";
     private Spinner spinnerLocation;
     private CircularImageView ivStudent;
-    private BroadcastReceiver broadcastReceiver;
     public EditText etName, etEmail, etPassword, etConfirmPassword, etPhone;
     private String password;
     private Button btnRegisterStudent;
@@ -59,7 +58,7 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
         btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String  location;
+                String location;
                 location = spinnerLocation.getSelectedItem().toString();
                 password = etPassword.getText().toString().trim();
                 Visitor visitor = new Visitor();
@@ -69,7 +68,7 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
                 visitor.setPhone(etPhone.getText().toString().trim());
                 visitor.setType("User");
                 visitor.setPassword(etPassword.getText().toString());
-               // student.setToken(FirebaseInstanceId.getInstance().getToken());
+                // student.setToken(FirebaseInstanceId.getInstance().getToken());
 
                 if (validate(visitor)) {
                     progressDialog.show();
@@ -78,21 +77,12 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
             }
 
         });
-     /*   broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Toast.makeText(context, "its if phase", Toast.LENGTH_SHORT).show();
-            }
-        };
-        registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIDService.TOKEN_BROADCAST));
-*/
-
         ivStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAspectRatio(1,1)
+                        .setAspectRatio(1, 1)
                         .start(UserSignUpActivity.this);
             }
         });
@@ -100,27 +90,11 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
     }
 
     private void setupProgressDialog() {
-        progressDialog=new ProgressDialog(UserSignUpActivity.this);
+        progressDialog = new ProgressDialog(UserSignUpActivity.this);
         progressDialog.setTitle("Creating Your account");
         progressDialog.setMessage("Please wait while we setup your account information");
         progressDialog.setCancelable(false);
     }
-
-
-    @Override
-    public void onLoginSignupSuccess(User user) {
-        startActivity(new Intent(UserSignUpActivity.this, MainActivity.class));
-        progressDialog.dismiss();
-        finish();
-        Toast.makeText(UserSignUpActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onLoginSignupFailure(String failureMessage) {
-        progressDialog.dismiss();
-        Toast.makeText(this, "Failed to create account: " + failureMessage, Toast.LENGTH_SHORT).show();
-    }
-
     public boolean validate(Visitor visitor) {
         if (mainImageUri == null) {
             Toast.makeText(UserSignUpActivity.this, "Please Choose Image First", Toast.LENGTH_SHORT).show();
@@ -197,5 +171,21 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
             }
         }
     }
+
+
+    @Override
+    public void onLoginSignupSuccess(User user) {
+        startActivity(new Intent(UserSignUpActivity.this, MainActivity.class));
+        progressDialog.dismiss();
+        finish();
+        Toast.makeText(UserSignUpActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoginSignupFailure(String failureMessage) {
+        progressDialog.dismiss();
+        Toast.makeText(this, "Failed to create account: " + failureMessage, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

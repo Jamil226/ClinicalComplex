@@ -31,7 +31,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 public class WorkCreateAccountActivity extends AppCompatActivity implements FirebaseDatabaseHelper.OnLoginSignupAttemptCompleteListener {
     private static final String TAG = "TeacherSignUpActivity";
     private Spinner spinnerLocation;
-    private BroadcastReceiver broadcastReceiver;
     private CircularImageView ivProfileTeacher;
     public EditText etName, etEmail, etPassword,
             etConfirmPassword, etPhone,
@@ -46,20 +45,7 @@ public class WorkCreateAccountActivity extends AppCompatActivity implements Fire
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_createaccount);
-
-        etWorkShopName = findViewById(R.id.etsvWorkShopName);
-        etDescrip = findViewById(R.id.etsvDesc);
-        etAddress = findViewById(R.id.etsvAddress);
-        spinnerLocation = findViewById(R.id.spinnersvLocation);
-        etName = findViewById(R.id.etTeacherName);
-        etEmail = findViewById(R.id.etTeacherEmail);
-        etPassword = findViewById(R.id.etsvPassword);
-        etConfirmPassword = findViewById(R.id.etsvConfirmPassword);
-        etPhone = findViewById(R.id.etsvPhone);
-        ivProfileTeacher = findViewById(R.id.ivProfileTeacher);
-        setupSpinners();
-        setupProgressDialog();
-        btnRegisterStudent = findViewById(R.id.btnsvRegister);
+intitViews();
         firebaseDatabaseHelper = new FirebaseDatabaseHelper(this);
 
         btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +91,23 @@ public class WorkCreateAccountActivity extends AppCompatActivity implements Fire
             }
         });
 
+    }
+
+    private void intitViews() {
+
+        etWorkShopName = findViewById(R.id.etsvWorkShopName);
+        etDescrip = findViewById(R.id.etsvDesc);
+        etAddress = findViewById(R.id.etsvAddress);
+        spinnerLocation = findViewById(R.id.spinnersvLocation);
+        etName = findViewById(R.id.etTeacherName);
+        etEmail = findViewById(R.id.etTeacherEmail);
+        etPassword = findViewById(R.id.etsvPassword);
+        etConfirmPassword = findViewById(R.id.etsvConfirmPassword);
+        etPhone = findViewById(R.id.etsvPhone);
+        ivProfileTeacher = findViewById(R.id.ivProfileTeacher);
+        setupSpinners();
+        setupProgressDialog();
+        btnRegisterStudent = findViewById(R.id.btnsvRegister);
     }
 
 

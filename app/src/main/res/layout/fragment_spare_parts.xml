@@ -1,29 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="4dp"
+    android:orientation="vertical"
+    android:gravity="center"
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSparePartsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rvUsersList"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/tvNothingToShowUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nothing to Show."
+        android:padding="20dp"
         android:visibility="gone"
+        android:id="@+id/tvNoData"
+        android:text="No Data Found"
         android:textColor="#000"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/rvUsersList"
-        app:layout_constraintEnd_toEndOf="@+id/rvUsersList"
-        app:layout_constraintStart_toStartOf="@+id/rvUsersList"
-        app:layout_constraintTop_toTopOf="@+id/rvUsersList" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/rvSparePartsList"
+        app:layout_constraintEnd_toEndOf="@+id/rvSparePartsList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbAddUser"
+        android:id="@+id/fbAddSparePart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -31,6 +35,7 @@
         android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_user" />
+        app:srcCompat="@drawable/ic_input_add" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

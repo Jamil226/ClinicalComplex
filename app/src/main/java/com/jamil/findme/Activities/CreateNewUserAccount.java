@@ -20,20 +20,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
+import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.R;
 import com.jamil.findme.Utilities.FirebaseDatabaseHelper;
+import com.jamil.findme.Utilities.PreferencesManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-public class EditVisitorInfoActivity extends AppCompatActivity implements FirebaseDatabaseHelper.onVisitorDataUpdateListener {
+public class CreateNewUserAccount extends AppCompatActivity {
     private static final String TAG = "TAG";
     private Spinner spinnerLocation;
     private CircularImageView ivStudent;
@@ -43,35 +46,39 @@ public class EditVisitorInfoActivity extends AppCompatActivity implements Fireba
     private Uri mainImageUri = null;
     private FirebaseDatabaseHelper firebaseDatabaseHelper;
     private ProgressDialog progressDialog;
-    private Visitor user;
+    private User currentUser;
+    private PreferencesManager prefs;
     private StorageReference folderProfilePics;
+    DatabaseReference tableUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_visitor_info);
+        setContentView(R.layout.activity_create_new_user_account);
         try {
+            prefs=new PreferencesManager(this);
+            currentUser=prefs.getCurrentUser();
+            tableUser = FirebaseDatabase.getInstance().getReference().child("Users");
             folderProfilePics = FirebaseStorage.getInstance().getReference().child("profile_image");
-            etName = findViewById(R.id.etNameStudentEditVisitor);
-            spinnerLocation = findViewById(R.id.spinnerLocationEditVisitor);
-            etEmail = findViewById(R.id.etEmailStudentEditVisitor);
-            etPassword = findViewById(R.id.etPasswordStudentEditVisitor);
-            etConfirmPassword = findViewById(R.id.etConfirmPassStudentEditVisitor);
-            etPhone = findViewById(R.id.etPhoneStudentEditVisitor);
-            ivStudent = findViewById(R.id.ivEditVisitor);
+            spinnerLocation = findViewById(R.id.spinnerLocation);
+            etName = findViewById(R.id.etNameStudent);
+            etEmail = findViewById(R.id.etEmailStudent);
+            etPassword = findViewById(R.id.etPasswordStudent);
+            etConfirmPassword = findViewById(R.id.etConfirmPassStudent);
+            etPhone = findViewById(R.id.etPhoneStudent);
+            ivStudent = findViewById(R.id.ivStudent);
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(this);
-            btnRegisterStudent = findViewById(R.id.btnRegisterStudentEditVisitor);
+            btnRegisterStudent = findViewById(R.id.btnRegisterStudent);
             setupSpinners();
             setupProgressDialog();
-            user = new Gson().fromJson(getIntent().getStringExtra("UID"), Visitor.class);
-            setDataOnFields(user);
+
             btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String location;
                     location = spinnerLocation.getSelectedItem().toString();
                     password = etPassword.getText().toString().trim();
-                    final Visitor visitor = new Visitor();
+                    final User visitor = new Visitor();
                     visitor.setName(etName.getText().toString().trim());
                     visitor.setEmail(etEmail.getText().toString().trim());
                     visitor.setLocation(location);
@@ -82,68 +89,84 @@ public class EditVisitorInfoActivity extends AppCompatActivity implements Fireba
 
                     if (validate(visitor)) {
                         progressDialog.show();
-                        if (mainImageUri == null) {
-                            progressDialog.show();
-                            visitor.setImage(user.getImage());
-                            firebaseDatabaseHelper.UpdateData(visitor,
-                                    user, mainImageUri, EditVisitorInfoActivity.this);
-                        } else {
-                            progressDialog.show();
-                            folderProfilePics.putFile(mainImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.e(TAG, "onUploadFileComplete: Now uploadiong file");
-                                        folderProfilePics.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
-                                                visitor.setImage(uri.toString());
-                                                firebaseDatabaseHelper.UpdateData(visitor,
-                                                        user, mainImageUri, EditVisitorInfoActivity.this);
-                                            }
-                                        });
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword
+                                (visitor.getEmail(), password).
+                                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            visitor.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                                            firebaseDatabaseHelper.uploadFile(mainImageUri,
+                                                    folderProfilePics.child(visitor.getUid() + ".jpg"),
+                                                    new FirebaseDatabaseHelper.OnUploadFileCompleteListener() {
+                                                        @Override
+                                                        public void onUploadFileComplete(String url) {
+                                                            visitor.setImage(url);
+                                                            tableUser.child(visitor.getUid()).setValue(visitor).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        FirebaseAuth.getInstance().signInWithEmailAndPassword(currentUser.getEmail(),currentUser.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    progressDialog.dismiss();
+                                                                                    finish();
+                                                                                    Toast.makeText(CreateNewUserAccount.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+
+                                                                                }
+                                                                            }
+                                                                        });
+
+                                                                    } else {
+                                                                        progressDialog.dismiss();
+                                                                        Toast.makeText(CreateNewUserAccount.this, "Error :" + task.getException(), Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                }
+                                                            });
+
+
+                                                        }
+                                                    });
+                                        } else {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(CreateNewUserAccount.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
-                        }
+                                });
+
                     }
                 }
 
             });
-
             ivStudent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CropImage.activity()
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setAspectRatio(1, 1)
-                            .start(EditVisitorInfoActivity.this);
+                            .start(CreateNewUserAccount.this);
                 }
             });
-
         } catch (Exception e) {
             Log.e(TAG, "onCreate: " + e.toString());
         }
     }
 
-
-    private void setDataOnFields(Visitor user) {
-        Glide.with(this).load(user.getImage()).into(ivStudent);
-        etName.setText(user.getName());
-        etEmail.setText(user.getEmail());
-        etPassword.setText(user.getPassword());
-        etConfirmPassword.setText(user.getPassword());
-        etPhone.setText(user.getPhone());
-    }
-
     private void setupProgressDialog() {
-        progressDialog = new ProgressDialog(EditVisitorInfoActivity.this);
-        progressDialog.setTitle("Updating Your account");
+        progressDialog = new ProgressDialog(CreateNewUserAccount.this);
+        progressDialog.setTitle("Creating Your account");
         progressDialog.setMessage("Please wait while we setup your account information");
         progressDialog.setCancelable(false);
     }
 
-    public boolean validate(Visitor visitor) {
+    public boolean validate(User visitor) {
+        if (mainImageUri == null) {
+            Toast.makeText(CreateNewUserAccount.this, "Please Choose Image First", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (visitor.getName().isEmpty()) {
             etName.setError("Must Fill Field");
             etName.requestFocus();
@@ -216,14 +239,4 @@ public class EditVisitorInfoActivity extends AppCompatActivity implements Fireba
         }
     }
 
-    @Override
-    public void onVisitorDataUpdateCompleted(String success) {
-        if (success.equals("success")) {
-            progressDialog.dismiss();
-            Toast.makeText(this, "Data Updated Successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            progressDialog.dismiss();
-            Toast.makeText(this, "Error :" + success, Toast.LENGTH_SHORT).show();
-        }
-    }
 }

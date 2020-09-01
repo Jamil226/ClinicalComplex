@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jamil.findme.Activities.EditVisitorInfoActivity;
+import com.jamil.findme.Fragments.SparePartsFragment;
 import com.jamil.findme.Models.Admin;
+import com.jamil.findme.Models.PostModel;
 import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.Models.WorkShopModel;
@@ -51,7 +53,8 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference tableChats = FirebaseDatabase.getInstance().getReference("Groups");
     private DatabaseReference tblProposal = FirebaseDatabase.getInstance().getReference("Proposal");//.child("participants");
     private StorageReference folderProfilePics = FirebaseStorage.getInstance().getReference().child("profile_image");
-    private StorageReference folderProposalFiles = FirebaseStorage.getInstance().getReference().child("Proposal_files");
+    private DatabaseReference tablePosts = FirebaseDatabase.getInstance().getReference().child("SpareParts");
+    private StorageReference folderPosts = FirebaseStorage.getInstance().getReference().child("spare_part_images/");
 
     public FirebaseDatabaseHelper(Context context) {
         this.context = context;
@@ -103,7 +106,7 @@ public class FirebaseDatabaseHelper {
         }
     }
 
-    private void loadUserInfo(String uid, final OnLoadUserInfoCompleteListener listener) {
+    public void loadUserInfo(String uid, final OnLoadUserInfoCompleteListener listener) {
 
         tableUser.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -221,7 +224,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    private void uploadFile(Uri fileUri, final StorageReference path, final OnUploadFileCompleteListener listener) {
+    public void uploadFile(Uri fileUri, final StorageReference path, final OnUploadFileCompleteListener listener) {
 
         path.putFile(fileUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -269,18 +272,28 @@ public class FirebaseDatabaseHelper {
 
     }
 
-    public void queryUsersByLocation(String location, final onQueryUserByLocationCompleteListener listener) {
-        final Query query = tableUser.orderByChild("location").equalTo(location);
-        tableUser.addValueEventListener(new ValueEventListener() {
+    public void queryUsersByLocation(String type, String location, final onQueryUserByLocationCompleteListener listener) {
+        final Query query;
+        if (type.equals("Admin")) {
+            query = tableUser;
+        } else {
+            query = tableUser.orderByChild("location").equalTo(location);
+
+        }
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Visitor> arrayList = new ArrayList<>();
+                arrayList.clear();
                 Log.e(TAG, "onDataChange: UsersList" + snapshot);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Visitor visitor = dataSnapshot.getValue(Visitor.class);
+                    assert visitor != null;
+                    if(visitor.getType().equals("User"))
                     arrayList.add(visitor);
                 }
                 listener.onQueryUserByLocationComplete(arrayList);
+                arrayList.clear();
                 query.removeEventListener(this);
             }
 
@@ -290,6 +303,99 @@ public class FirebaseDatabaseHelper {
             }
         });
 
+    }
+
+    public void deleteUserById(String uid) {
+        tableUser.child(uid).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(context, "User Data Delweted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //.addO  nSuccessListener { FirebaseAuth.getInstance().currentUser!!.delete().addOnCompleteListener { //Go to login screen } }
+    }
+
+    public void queryWorkShopData(String uid, String type, final onQueryWorkShopDataCompleteListener listener) {
+        final Query query = tableUser.orderByChild("type").equalTo("WorkShop");
+        tableUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<WorkShopModel> arrayList = new ArrayList<>();
+                Log.e(TAG, "onDataChange: UsersList" + snapshot);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    WorkShopModel visitor = dataSnapshot.getValue(WorkShopModel.class);
+                    assert visitor != null;
+                    if (visitor.getType().equals("WorkShop"))
+                    arrayList.add(visitor);
+                }
+                listener.onQueryWorkShopDataCompleteListener(arrayList);
+                arrayList.clear();
+                query.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onQueryWorkShopDataCompleteListener(null);
+            }
+        });
+
+    }
+
+    public void querySparePartsData(final onQuerySparePartsDataCompleteListener listener) {
+        tablePosts.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<PostModel> arrayList = new ArrayList<>();
+                arrayList.clear();
+                Log.e(TAG, "onDataChange: UsersList" + snapshot);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    PostModel visitor = dataSnapshot.getValue(PostModel.class);
+                        arrayList.add(visitor);
+                }
+                listener.onSparePartsDataCompleted(arrayList);
+                arrayList.clear();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+               listener.onSparePartsDataCompleted(null);
+            }
+        });
+    }
+
+
+    public interface onQuerySparePartsDataCompleteListener {
+        void onSparePartsDataCompleted(ArrayList<PostModel> models);
+    }
+    public interface onQueryWorkShopDataCompleteListener {
+        void onQueryWorkShopDataCompleteListener(ArrayList<WorkShopModel> models);
+    }
+    public void sendPost(final PostModel postModel, final User currentUser, Uri newPostImgUri,
+                         final OnPostCompleteListener listener) {
+        uploadFile(newPostImgUri, folderPosts.child(System.currentTimeMillis()
+                + currentUser.getUid()), new OnUploadFileCompleteListener() {
+            @Override
+            public void onUploadFileComplete(String url) {
+                postModel.setImage(url);
+                postModel.setPost_id(System.currentTimeMillis()
+                        + currentUser.getUid());
+                tablePosts.child(postModel.getTime() + postModel.getUser_id()).setValue(postModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            listener.onPostCompleted("post send successfully");
+                        } else {
+                            listener.onPostCompleted("error in sending post :" + task.getException());
+                        }
+                    }
+                });
+            }
+        });
+
+
+    }
+    public interface OnPostCompleteListener {
+        void onPostCompleted(String isSuccessful);
     }
 
     public interface onVisitorDataUpdateListener {
@@ -401,7 +507,8 @@ public class FirebaseDatabaseHelper {
                                        */
 /* TopicManagementResponse response;
                                     response = FirebaseMessaging.getInstance().subscribeToTopic(                                            chatModel.getPartners().get(0).getToken(), chatModel.getTitle().toString());
-                                    *//*
+                                    */
+/*
 
                                     arrayList.add(chatModel);
                                     Toast.makeText(context, " " + chatModel.getPartners().get(j).getEmail(), Toast.LENGTH_SHORT).show();

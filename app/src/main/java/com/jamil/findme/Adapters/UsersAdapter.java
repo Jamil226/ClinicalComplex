@@ -16,13 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.jamil.findme.Activities.EditVisitorInfoActivity;
+import com.jamil.findme.Activities.UserProfileActivity;
 import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.R;
-import com.jamil.findme.UserProfileActivity;
+import com.jamil.findme.Utilities.FirebaseDatabaseHelper;
 import com.jamil.findme.Utilities.PreferencesManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -32,6 +32,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
     private List<Visitor> arrayList;
     private Context context;
     User currentUser;
+    private FirebaseDatabaseHelper firebaseDatabaseHelper;
     PreferencesManager pref;
 
     public UsersAdapter(Context context, List<Visitor> arrayList) {
@@ -44,6 +45,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
         View v = LayoutInflater.from(context).inflate(R.layout.signle_item_users, viewGroup, false);
         pref = new PreferencesManager(context);
         currentUser = pref.getCurrentUser();
+        firebaseDatabaseHelper = new FirebaseDatabaseHelper(context);
         return new viewholder(v);
     }
 
@@ -54,18 +56,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
         holder.email.setText(model.getEmail());
         holder.tvPhoneUserlist.setText(model.getPhone());
         Glide.with(context).load(model.getImage()).into(holder.image);
-      /*  if (currentUser.getType().equals("Admin")) {
+        if (currentUser.getType().equals("Admin")) {
             holder.llEditUserOption.setVisibility(View.VISIBLE);
         } else {
             holder.llEditUserOption.setVisibility(View.GONE);
 
-        }*/
+        }
         holder.icEditAccountUserList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditVisitorInfoActivity.class);
                 intent.putExtra("UID", new Gson().toJson(model));
                 context.startActivity(intent);
+                arrayList.clear();
             }
         });
         holder.icDelAccountUserList.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +81,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                firebaseDatabaseHelper.deleteUserById(model.getUid());
+                                arrayList.clear();
+                                notifyDataSetChanged();
                                 Toast.makeText(context, "You Wish To Delete The User", Toast.LENGTH_SHORT).show();
                             }
 

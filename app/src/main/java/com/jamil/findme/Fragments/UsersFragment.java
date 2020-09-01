@@ -1,15 +1,19 @@
 package com.jamil.findme.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jamil.findme.Activities.CreateNewUserAccount;
 import com.jamil.findme.Adapters.UsersAdapter;
 import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.Visitor;
@@ -28,7 +32,9 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
     private PreferencesManager prefs;
     FirebaseDatabaseHelper firebaseDatabaseHelper;
     UsersAdapter usersAdapter;
-    ArrayList<Visitor> arrayList;
+    ArrayList<Visitor> arrayList = new ArrayList<>();
+    TextView tvNothingToShowUser;
+    FloatingActionButton fbAddUser;
 
     public UsersFragment() {
         // Required empty public constructor
@@ -41,22 +47,45 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_users, container, false);
         try {
-            arrayList = new ArrayList<>();
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(getActivity());
             prefs = new PreferencesManager(Objects.requireNonNull(getActivity()));
             currentUser = prefs.getCurrentUser();
+            tvNothingToShowUser = view.findViewById(R.id.tvNothingToShowUser);
+            fbAddUser = view.findViewById(R.id.fbAddUser);
             rvUsersList = view.findViewById(R.id.rvUsersList);
             rvUsersList.setHasFixedSize(true);
             rvUsersList.setLayoutManager(new LinearLayoutManager(view.getContext()));
             usersAdapter = new UsersAdapter(getActivity(), arrayList);
             rvUsersList.setAdapter(usersAdapter);
+            usersAdapter.notifyDataSetChanged();
             arrayList.clear();
-            firebaseDatabaseHelper.queryUsersByLocation(currentUser.getLocation(), this);
+            firebaseDatabaseHelper.queryUsersByLocation(currentUser.getType(), currentUser.getLocation(), this);
+            rvUsersList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (dy < 0 && !fbAddUser.isShown())
+                        fbAddUser.show();
+                    else if (dy > 0 && fbAddUser.isShown())
+                        fbAddUser.hide();
+                }
+
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                }
+            });
+            fbAddUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getContext(), CreateNewUserAccount.class);
+                    startActivityForResult(i, 1);
+                }
+            });
         } catch (Exception e) {
             Log.e(TAG, "onCreateView: UserFragment" + e.toString());
         }
@@ -65,10 +94,22 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     public void onQueryUserByLocationComplete(ArrayList<Visitor> arrayListUsers) {
-        arrayList.addAll(arrayListUsers);
-        // pbFragmentSupervisor.setVisibility(View.GONE);
-        usersAdapter.notifyDataSetChanged();
-        arrayListUsers.clear();
+        if (arrayListUsers.size() < 1) {
+            tvNothingToShowUser.setVisibility(View.VISIBLE);
+            rvUsersList.setVisibility(View.GONE);
+        } else {
+            tvNothingToShowUser.setVisibility(View.GONE);
+            rvUsersList.setVisibility(View.VISIBLE);
+            arrayList.addAll(arrayListUsers);
+            usersAdapter.notifyDataSetChanged();
+            arrayListUsers.clear();
+        }
     }
 }

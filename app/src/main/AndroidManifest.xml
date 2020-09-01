@@ -9,8 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.EditVisitorInfoActivity"></activity>
-        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".Activities.createWorkShopAccount"></activity>
+        <activity android:name=".Activities.CreateNewUserAccount" />
+        <activity android:name=".Activities.AddSparePart" />
+        <activity android:name=".Activities.EditWorkShopInfo" />
+        <activity android:name=".Activities.WorkShopProfile" />
+        <activity android:name=".Activities.EditVisitorInfoActivity" />
+        <activity android:name=".Activities.UserProfileActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

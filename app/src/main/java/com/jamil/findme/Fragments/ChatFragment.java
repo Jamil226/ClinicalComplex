@@ -43,10 +43,10 @@ public class ChatFragment extends Fragment {
         try {
 
 
-           // rvChatList = view.findViewById(R.id.rvChatList);
+      //      rvChatList = view.findViewById(R.id.rvChatList);
             prefs = new PreferencesManager(getActivity());
             currentUser = prefs.getCurrentUser();
-          /*  rvChatList.setHasFixedSize(true);
+        //    rvChatList.setHasFixedSize(true);
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(getActivity());
           // rvChatList.setLayoutManager(new LinearLayoutManager(view.getContext()));
            /* chatListAdapter = new ChatListAdapter(arrayListChat, getActivity());

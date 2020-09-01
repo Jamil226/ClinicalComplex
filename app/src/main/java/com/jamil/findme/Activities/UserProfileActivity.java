@@ -1,4 +1,4 @@
-package com.jamil.findme;
+package com.jamil.findme.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.jamil.findme.Models.Visitor;
+import com.jamil.findme.R;
 import com.jamil.findme.Utilities.FirebaseDatabaseHelper;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
