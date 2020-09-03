@@ -101,7 +101,6 @@ public class WorkShopProfile extends AppCompatActivity {
                         public void onDataChange(DataSnapshot snapshot) {
                             Log.e(TAG, "onDataChange: " + snapshot);
                             if (snapshot.getValue() != null) {
-                                // run some code
                                 ChatModel chatMo = snapshot.getValue(ChatModel.class);
                                 Log.e(TAG, "onDataChange: " + chatMo.getId());
                                 Intent intent = new Intent(WorkShopProfile.this,

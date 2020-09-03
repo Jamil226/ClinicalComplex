@@ -65,7 +65,6 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
             rvUsersList.getRecycledViewPool().clear();
             usersAdapter.notifyDataSetChanged();
             arrayList.clear();
-            firebaseDatabaseHelper.queryUsersByLocation(currentUser.getType(), currentUser.getLocation(), this);
             rvUsersList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -96,6 +95,12 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
         return view;
     }
 
+    private void refresh() {
+        arrayList.clear();
+        firebaseDatabaseHelper.queryUsersByLocation(currentUser.getType(), currentUser.getLocation(), this);
+        usersAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -108,7 +113,7 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
     public void onQueryUserByLocationComplete(ArrayList<Visitor> arrayListUsers) {
         if (arrayListUsers.size() < 1) {
             tvNothingToShowUser.setVisibility(View.VISIBLE);
-            rvUsersList.setVisibility(View.GONE);
+            rvUsersList.setVisibility(View.VISIBLE);
         } else {
             tvNothingToShowUser.setVisibility(View.GONE);
             rvUsersList.setVisibility(View.VISIBLE);

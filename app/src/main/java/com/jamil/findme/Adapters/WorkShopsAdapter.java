@@ -99,6 +99,7 @@ public class WorkShopsAdapter extends RecyclerView.Adapter<WorkShopsAdapter.view
                                 firebaseDatabaseHelper.
                                         deleteUserById(model.getUid());
                                 arrayListProposal.clear();
+                                notifyDataSetChanged();
                             }
 
                         })

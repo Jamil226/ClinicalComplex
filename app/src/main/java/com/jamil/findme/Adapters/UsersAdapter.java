@@ -49,7 +49,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
         return new viewholder(v);
     }
 
-    public void onBindViewHolder(@NonNull final viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull final viewholder holder, final int position) {
         final Visitor model = arrayList.get(position);
         holder.location.setText(String.valueOf(model.getLocation()));
         holder.Name.setText(model.getName());
@@ -82,9 +82,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 firebaseDatabaseHelper.deleteUserById(model.getUid());
-                                arrayList.clear();
+                                arrayList.remove(position);
                                 notifyDataSetChanged();
-                                Toast.makeText(context, "You Wish To Delete The User", Toast.LENGTH_SHORT).show();
                             }
 
                         })
@@ -102,6 +101,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.viewholder> 
             }
         });
     }
+
 
     public int getItemCount() {
         return arrayList.size();

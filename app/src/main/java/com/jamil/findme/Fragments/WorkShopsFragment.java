@@ -67,8 +67,8 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
         workShopsAdapter = new WorkShopsAdapter(arrayListProposal, getActivity(), "All");
         rvProposalList.setAdapter(workShopsAdapter);
         arrayListProposal.clear();
-       // firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
         workShopsAdapter.notifyDataSetChanged();
+        firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
         fbAddWorkShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,6 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
                 startActivityForResult(i, 2);
                 arrayListProposal.clear();
                 workShopsAdapter.notifyDataSetChanged();
-                Toast.makeText(getContext(), "Working", Toast.LENGTH_SHORT).show();
             }
         });
         if (currentUser.getType().equals("Admin")) {
@@ -112,11 +111,4 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
         workShopsAdapter.notifyDataSetChanged();
     }
 
-/* @Override
-    public void onProposalDataLoaded(ArrayList<ProposalModel> proposalList) {
-        arrayListProposal.addAll(proposalList);
-        pbFragmentProposal.setVisibility(View.GONE);
-        proposalAdapter.notifyDataSetChanged();
-        proposalList.clear();
-    }*/
 }
