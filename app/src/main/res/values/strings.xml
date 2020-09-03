@@ -3,22 +3,14 @@
 
     <string name="navigation_drawer_open">open navigation drawer</string>
     <string name="navigation_drawer_close">close navigation drawer</string>
-    <array name="Campuses">
-        <item>Select your Campus</item>
-        <item>CUI Sahiwal</item>
-        <item>CUI Vehari</item>
-        <item>CUI Islamabad</item>
-        <item>CUI Lahore</item>
-        <item>CUI Abottabad</item>
-    </array>
 
     <array name="Location">
         <item>Location</item>
-        <item>Lahore</item>
-        <item>Karachi</item>
-        <item>Sahiwal</item>
-        <item>Faisalabad</item>
-        <item>Multan</item>
+        <item>Anradhapura</item>
+        <item>Colombo</item>
+        <item>Ghalla</item>
+        <item>Jaffna</item>
+        <item>Kandy</item>
     </array>
 
     <array name="qualifications">
@@ -28,4 +20,6 @@
     </array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="options">Options</string>
+    <string name="view_pdfs">View pdf</string>
 </resources>

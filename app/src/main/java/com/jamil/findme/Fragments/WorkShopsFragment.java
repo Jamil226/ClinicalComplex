@@ -1,5 +1,6 @@
 package com.jamil.findme.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jamil.findme.Activities.caNewWorkShop;
 import com.jamil.findme.Adapters.WorkShopsAdapter;
 import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.WorkShopModel;
@@ -64,29 +66,24 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
         rvProposalList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         workShopsAdapter = new WorkShopsAdapter(arrayListProposal, getActivity(), "All");
         rvProposalList.setAdapter(workShopsAdapter);
-        workShopsAdapter.notifyDataSetChanged();
         arrayListProposal.clear();
-        firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
+       // firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
+        workShopsAdapter.notifyDataSetChanged();
         fbAddWorkShop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(getContext(), caNewWorkShop.class);
+                startActivityForResult(i, 2);
+                arrayListProposal.clear();
+                workShopsAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), "Working", Toast.LENGTH_SHORT).show();
             }
         });
-        rvProposalList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && !fbAddWorkShop.isShown())
-                    fbAddWorkShop.show();
-                else if (dy > 0 && fbAddWorkShop.isShown())
-                    fbAddWorkShop.hide();
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
+        if (currentUser.getType().equals("Admin")) {
+            fbAddWorkShop.setVisibility(View.VISIBLE);
+        } else {
+            fbAddWorkShop.setVisibility(View.GONE);
+        }
 
         return view;
     }
@@ -107,9 +104,15 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        arrayListProposal.clear();
+        firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
+        workShopsAdapter.notifyDataSetChanged();
+    }
 
-
-   /* @Override
+/* @Override
     public void onProposalDataLoaded(ArrayList<ProposalModel> proposalList) {
         arrayListProposal.addAll(proposalList);
         pbFragmentProposal.setVisibility(View.GONE);

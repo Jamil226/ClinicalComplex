@@ -62,6 +62,7 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
             rvUsersList.setLayoutManager(new LinearLayoutManager(view.getContext()));
             usersAdapter = new UsersAdapter(getActivity(), arrayList);
             rvUsersList.setAdapter(usersAdapter);
+            rvUsersList.getRecycledViewPool().clear();
             usersAdapter.notifyDataSetChanged();
             arrayList.clear();
             firebaseDatabaseHelper.queryUsersByLocation(currentUser.getType(), currentUser.getLocation(), this);
@@ -84,6 +85,8 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
                 public void onClick(View v) {
                     Intent i = new Intent(getContext(), CreateNewUserAccount.class);
                     startActivityForResult(i, 1);
+                    usersAdapter.notifyDataSetChanged();
+                    arrayList.clear();
                 }
             });
         } catch (Exception e) {
@@ -96,7 +99,9 @@ public class UsersFragment extends Fragment implements FirebaseDatabaseHelper.on
     @Override
     public void onStart() {
         super.onStart();
-
+        arrayList.clear();
+        firebaseDatabaseHelper.queryUsersByLocation(currentUser.getType(), currentUser.getLocation(), this);
+        usersAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -2,4 +2,10 @@
 <resources>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="_50sdp">50sp</dimen>
+    <dimen name="learn_spacing_standard_new">16sp</dimen>
+    <dimen name="learn_font_size_normal">18sp</dimen>
+    <dimen name="_30sdp">32dp</dimen>
+    <dimen name="learn_spacing_middle">10dp</dimen>
+    <dimen name="learn_spacing_control">4dp</dimen>
 </resources>

@@ -20,52 +20,52 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
+import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.WorkShopModel;
 import com.jamil.findme.R;
 import com.jamil.findme.Utilities.FirebaseDatabaseHelper;
+import com.jamil.findme.Utilities.PreferencesManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class EditWorkShopInfo extends AppCompatActivity {
-    private static final String TAG = "TeacherSignUpActivity";
+public class caNewWorkShop extends AppCompatActivity {
+    private static final String TAG = "TAG";
     private Spinner spinnerLocation;
     private CircularImageView ivProfileTeacher;
     public EditText etName, etEmail, etPassword,
             etConfirmPassword, etPhone,
             etWorkShopName, etDescrip, etAddress;
     private String password;
+    private User currentUser;
+    private PreferencesManager prefs;
     private Button btnRegisterStudent;
     private Uri mainImageUri = null;
-    private FirebaseDatabaseHelper firebaseDatabaseHelper;
-    private ProgressDialog progressDialog;
+    FirebaseDatabaseHelper firebaseDatabaseHelper;
     private StorageReference folderProfilePics;
-    private WorkShopModel userModel;
+    private DatabaseReference tableUser;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_work_shop_info);
+        setContentView(R.layout.activity_ca_new_work_shop);
+
         try {
+
+            prefs = new PreferencesManager(this);
+            currentUser = prefs.getCurrentUser();
+            tableUser = FirebaseDatabase.getInstance().getReference().child("Users");
             folderProfilePics = FirebaseStorage.getInstance().getReference().child("profile_image");
             intitViews();
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(this);
-            userModel = new Gson().fromJson(getIntent().getStringExtra("WS"), WorkShopModel.class);
-            setUpData(userModel);
             btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -73,13 +73,12 @@ public class EditWorkShopInfo extends AppCompatActivity {
                     location = spinnerLocation.getSelectedItem().toString();
                     password = etPassword.getText().toString().trim();
                     final WorkShopModel workShopModel = new WorkShopModel();
-                    workShopModel.setUid(userModel.getUid());
                     workShopModel.setLocation(location);
                     workShopModel.setWorkShopName(etWorkShopName.getText().toString().trim());
                     workShopModel.setDescription(etDescrip.getText().toString().trim());
                     workShopModel.setAddress(etAddress.getText().toString().trim());
                     workShopModel.setName(etName.getText().toString().trim());
-                    workShopModel.setEmail(userModel.getEmail());
+                    workShopModel.setEmail(etEmail.getText().toString().trim());
                     workShopModel.setPhone(etPhone.getText().toString().trim());
                     workShopModel.setType("WorkShop");
                     workShopModel.setPassword(etPassword.getText().toString());
@@ -87,30 +86,55 @@ public class EditWorkShopInfo extends AppCompatActivity {
 
                     if (validate(workShopModel)) {
                         progressDialog.show();
-                        if (mainImageUri == null) {
+                        FirebaseAuth.getInstance().createUserWithEmailAndPassword
+                                (workShopModel.getEmail(), password).
+                                addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            workShopModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                            workShopModel.setImage(userModel.getImage());
-                            updateData(workShopModel);
-                        } else {
-                            folderProfilePics.putFile(mainImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.e(TAG, "onUploadFileComplete: Now uploadiong file");
-                                        folderProfilePics.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
-                                                workShopModel.setImage(uri.toString());
-                                                updateData(workShopModel);
-                                            }
-                                        });
+                                            firebaseDatabaseHelper.uploadFile(mainImageUri,
+                                                    folderProfilePics.child(workShopModel.getUid() + ".jpg"),
+                                                    new FirebaseDatabaseHelper.OnUploadFileCompleteListener() {
+                                                        @Override
+                                                        public void onUploadFileComplete(String url) {
+                                                            workShopModel.setImage(url);
+                                                            tableUser.child(workShopModel.getUid()).
+                                                                    setValue(workShopModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        FirebaseAuth.getInstance().signInWithEmailAndPassword(currentUser.getEmail(), currentUser.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    progressDialog.dismiss();
+                                                                                    finish();
+                                                                                    Toast.makeText(caNewWorkShop.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+
+                                                                                }
+                                                                            }
+                                                                        });
+
+                                                                    } else {
+                                                                        progressDialog.dismiss();
+                                                                        Toast.makeText(caNewWorkShop.this, "Error :" + task.getException(), Toast.LENGTH_SHORT).show();
+
+                                                                    }
+                                                                }
+                                                            });
+
+
+                                                        }
+                                                    });
+                                        } else {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(caNewWorkShop.this, "" + task.getException(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
 
-                        }
-
-                        //firebaseDatabaseHelper.attemptSignUp(workShopModel, password, mainImageUri, EditWorkShopInfo.this);
                     }
                 }
             });
@@ -121,60 +145,13 @@ public class EditWorkShopInfo extends AppCompatActivity {
                     CropImage.activity()
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setAspectRatio(1, 1)
-                            .start(EditWorkShopInfo.this);
+                            .start(caNewWorkShop.this);
                 }
             });
 
         } catch (Exception e) {
             Log.e(TAG, "onCreate: " + e.toString());
         }
-    }
-
-    private void updateData(final WorkShopModel workShopModel) {
-        final DatabaseReference tableUser = FirebaseDatabase.getInstance().getReference().child("Users");
-        tableUser.child(workShopModel.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                                        Map<String, Object> postValues = new HashMap<String, Object>();
-                                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                                            postValues.put(snapshot.getKey(), snapshot.getValue());
-                                                        }
-                                                        postValues.put("image", workShopModel.getImage());
-                                                        postValues.put("email", workShopModel.getEmail());
-                                                        postValues.put("name", workShopModel.getName());
-                                                        postValues.put("phone", workShopModel.getPhone());
-                                                        postValues.put("workShopName", workShopModel.getWorkShopName());
-                                                        postValues.put("password", workShopModel.getPassword());
-                                                        postValues.put("location", workShopModel.getLocation());
-                                                        postValues.put("address", workShopModel.getAddress());
-                                                        tableUser.child(workShopModel.getUid()).updateChildren(postValues);
-                                                        progressDialog.dismiss();
-                                                        finish();
-                                                        Toast.makeText(EditWorkShopInfo.this, "Updated", Toast.LENGTH_SHORT).show();
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(DatabaseError databaseError) {
-                                                        Log.e(TAG, "onCancelled: " + databaseError);
-                                                        progressDialog.dismiss();
-                                                        Toast.makeText(EditWorkShopInfo.this, "Error" + databaseError, Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                );
-
-    }
-
-    private void setUpData(WorkShopModel userModel) {
-        Glide.with(this).load(userModel.getImage()).into(ivProfileTeacher);
-        etWorkShopName.setText(userModel.getWorkShopName());
-        etDescrip.setText(userModel.getDescription());
-        etAddress.setText(userModel.getAddress());
-        etName.setText(userModel.getName());
-        etPassword.setText(userModel.getPassword());
-        etConfirmPassword.setText(userModel.getPassword());
-        etPhone.setText(userModel.getPhone());
-
     }
 
     private void intitViews() {
@@ -184,6 +161,7 @@ public class EditWorkShopInfo extends AppCompatActivity {
         etAddress = findViewById(R.id.etsvAddress);
         spinnerLocation = findViewById(R.id.spinnersvLocation);
         etName = findViewById(R.id.etTeacherName);
+        etEmail = findViewById(R.id.etTeacherEmail);
         etPassword = findViewById(R.id.etsvPassword);
         etConfirmPassword = findViewById(R.id.etsvConfirmPassword);
         etPhone = findViewById(R.id.etsvPhone);
@@ -194,10 +172,18 @@ public class EditWorkShopInfo extends AppCompatActivity {
     }
 
     public boolean validate(WorkShopModel workShopModel) {
-
+        if (mainImageUri == null) {
+            Toast.makeText(caNewWorkShop.this, "Please Choose Image First", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (workShopModel.getName().isEmpty()) {
             etName.setError("Must Fill Field");
             etName.requestFocus();
+            return false;
+        }
+        if (workShopModel.getEmail().isEmpty()) {
+            etEmail.setError("Must Fill Field");
+            etEmail.requestFocus();
             return false;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(workShopModel.getEmail()).matches()) {
@@ -256,7 +242,7 @@ public class EditWorkShopInfo extends AppCompatActivity {
     }
 
     private void setupProgressDialog() {
-        progressDialog = new ProgressDialog(EditWorkShopInfo.this);
+        progressDialog = new ProgressDialog(caNewWorkShop.this);
         progressDialog.setTitle("Creating Your account");
         progressDialog.setMessage("Please wait while we setup your account information");
         progressDialog.setCancelable(false);
@@ -286,4 +272,9 @@ public class EditWorkShopInfo extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

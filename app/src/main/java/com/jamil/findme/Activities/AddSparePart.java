@@ -1,5 +1,6 @@
 package com.jamil.findme.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
     Spinner spinnerLocation;
     private User currentUser;
     private PreferencesManager prefs;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
         setContentView(R.layout.activity_add_spare_part);
         try {
             initViews();
+            setupProgressDialog();
             setupSpinners();
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(this);
             prefs = new PreferencesManager(this);
@@ -79,6 +82,7 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
                     postModel.setLocation(spinnerLocation.getSelectedItem().toString());
                     postModel.setUser_id(currentUser.getUid());
                     if (validate(postModel)) {
+                        progressDialog.show();
                         firebaseDatabaseHelper.sendPost(postModel, currentUser, newPostImgUri, AddSparePart.this);
                     }
                 }
@@ -87,6 +91,13 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
         } catch (Exception e) {
             Log.e(TAG, "onCreate: " + e.toString());
         }
+    }
+
+    private void setupProgressDialog() {
+        progressDialog = new ProgressDialog(AddSparePart.this);
+        progressDialog.setTitle("Creating Your Post");
+        progressDialog.setMessage("Please wait while we setup your Data");
+        progressDialog.setCancelable(false);
     }
 
     private void setupSpinners() {
@@ -103,19 +114,22 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
             Toast.makeText(AddSparePart.this, "Please Choose Image First", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(postModel.getProductName().isEmpty()){
+        if (postModel.getProductName().isEmpty()) {
             etaspPName.setError("Must Fill Field");
             etaspPName.requestFocus();
             return false;
-        } if(postModel.getDescription().isEmpty()){
+        }
+        if (postModel.getDescription().isEmpty()) {
             etaspDesc.setError("Must Fill Field");
             etaspDesc.requestFocus();
             return false;
-        } if(postModel.getPrice().isEmpty()){
+        }
+        if (postModel.getPrice().isEmpty()) {
             etaspPPrice.setError("Must Fill Field");
             etaspPPrice.requestFocus();
             return false;
-        } if(postModel.getType().isEmpty()){
+        }
+        if (postModel.getType().isEmpty()) {
             etaspPType.setError("Must Fill Field");
             etaspPType.requestFocus();
             return false;
@@ -135,7 +149,7 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
             ((TextView) spinnerLocation.getSelectedView()).setError("Select Your Location");
             return false;
         }
-            return true;
+        return true;
     }
 
     private void initViews() {
@@ -169,6 +183,8 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
 
     @Override
     public void onPostCompleted(String isSuccessful) {
+        progressDialog.dismiss();
+        finish();
         Toast.makeText(this, "Message :" + isSuccessful, Toast.LENGTH_SHORT).show();
     }
 }

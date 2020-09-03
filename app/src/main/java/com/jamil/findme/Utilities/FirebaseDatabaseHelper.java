@@ -5,17 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,15 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jamil.findme.Fragments.SparePartsFragment;
 import com.jamil.findme.Models.Admin;
+import com.jamil.findme.Models.ChatModel;
+import com.jamil.findme.Models.FeedBackModel;
+import com.jamil.findme.Models.MessageModel;
 import com.jamil.findme.Models.PostModel;
 import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.Models.WorkShopModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,8 +41,9 @@ public class FirebaseDatabaseHelper {
 
     private static final String TAG = "TAG";
     private Context context;
+    private DatabaseReference tableFeedBack = FirebaseDatabase.getInstance().getReference().child("FeedBacks");
     private DatabaseReference tableUser = FirebaseDatabase.getInstance().getReference().child("Users");
-    private DatabaseReference tableChats = FirebaseDatabase.getInstance().getReference("Groups");
+    private DatabaseReference tableChats = FirebaseDatabase.getInstance().getReference("Chats");
     private DatabaseReference tblProposal = FirebaseDatabase.getInstance().getReference("Proposal");//.child("participants");
     private StorageReference folderProfilePics = FirebaseStorage.getInstance().getReference().child("profile_image");
     private DatabaseReference tablePosts = FirebaseDatabase.getInstance().getReference().child("SpareParts");
@@ -58,52 +51,6 @@ public class FirebaseDatabaseHelper {
 
     public FirebaseDatabaseHelper(Context context) {
         this.context = context;
-    }
-
-    public void sendNotification(String title, String topic, String message, final Context context) {
-
-        //  topic = topic.replaceAll("\\s", "");
-
-        RequestQueue mRequestQue = Volley.newRequestQueue(context);
-
-        JSONObject json = new JSONObject();
-        try {
-            json.put("to", "/topics/" + topic.replaceAll("[^A-Za-z0-9]", "-"));
-            JSONObject notificationObj = new JSONObject();
-            notificationObj.put("title", title);
-            notificationObj.put("body", message.replaceAll(" + ", " "));
-            //replace notification with data when went send data
-            json.put("notification", notificationObj);
-            String URL = "https://fcm.googleapis.com/fcm/send";
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
-                    json,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.e(TAG, "onResponse: " + response);
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, "onError: " + error.networkResponse);
-                        }
-                    }
-            ) {
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> header = new HashMap<>();
-                    header.put("content-type", "application/json");
-                    header.put("authorization", "key=AAAAtwGQ0ZQ:APA91bG0EJX7M1ouUVQR9mlP5kJsEQRbdUXr7OG___6ZfM-Q665AESBKQ7_9WIox2azXY5TmgsRESl3ilm1x7kugXVMBNmIfddwMGW6xqmYkod__CMYNthJp7nReAIGbWuuBotVu8rXN");
-                    return header;
-                }
-            };
-
-
-            mRequestQue.add(request);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void loadUserInfo(String uid, final OnLoadUserInfoCompleteListener listener) {
@@ -166,35 +113,6 @@ public class FirebaseDatabaseHelper {
             }
         });
     }
-/*
-
-    public void sendProposal(final ChatModel chatModel, final ProposalModel proposalModel, final Uri dpUri, final OnSendProposalCompleteListener listener) {
-
-        uploadFile(dpUri, folderProposalFiles.child(dpUri.getLastPathSegment()), new OnUploadFileCompleteListener() {
-            @Override
-            public void onUploadFileComplete(String url) {
-                proposalModel.setFile(url);
-                Log.e(TAG, "onUploadFileComplete: Now in send proposal helpere");
-                tblProposal.child(String.valueOf(proposalModel.getTime())).setValue(proposalModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            tableChats.child(proposalModel.getTitle()).
-                                    setValue(chatModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    listener.onSendProposalSuccess("proposal send successfully");
-                                }
-                            });
-                        } else {
-                            listener.onSendProposalFailure(task.getException().toString());
-                        }
-                    }
-                });
-            }
-        });
-    }
-*/
 
     public void attemptSignUp(final User user, String password, final Uri dpUri, final OnLoginSignupAttemptCompleteListener listener) {
 
@@ -243,8 +161,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void UpdateData(final Visitor visitor, final User user,
-                           Uri mainImageUri, final onVisitorDataUpdateListener listener) {
+    public void UpdateData(final Visitor visitor, final User user, Uri mainImageUri, final onVisitorDataUpdateListener listener) {
         tableUser.child(user.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
@@ -289,8 +206,8 @@ public class FirebaseDatabaseHelper {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Visitor visitor = dataSnapshot.getValue(Visitor.class);
                     assert visitor != null;
-                    if(visitor.getType().equals("User"))
-                    arrayList.add(visitor);
+                    if (visitor.getType().equals("User"))
+                        arrayList.add(visitor);
                 }
                 listener.onQueryUserByLocationComplete(arrayList);
                 arrayList.clear();
@@ -326,7 +243,7 @@ public class FirebaseDatabaseHelper {
                     WorkShopModel visitor = dataSnapshot.getValue(WorkShopModel.class);
                     assert visitor != null;
                     if (visitor.getType().equals("WorkShop"))
-                    arrayList.add(visitor);
+                        arrayList.add(visitor);
                 }
                 listener.onQueryWorkShopDataCompleteListener(arrayList);
                 arrayList.clear();
@@ -350,7 +267,7 @@ public class FirebaseDatabaseHelper {
                 Log.e(TAG, "onDataChange: UsersList" + snapshot);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     PostModel visitor = dataSnapshot.getValue(PostModel.class);
-                        arrayList.add(visitor);
+                    arrayList.add(visitor);
                 }
                 listener.onSparePartsDataCompleted(arrayList);
                 arrayList.clear();
@@ -358,18 +275,64 @@ public class FirebaseDatabaseHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-               listener.onSparePartsDataCompleted(null);
+                listener.onSparePartsDataCompleted(null);
+            }
+        });
+    }
+
+    public void sendFeedBack(FeedBackModel feedBackModel, final onSendFeedBackDataCompleteListener listener) {
+        tableFeedBack.child(feedBackModel.getFid()).setValue(feedBackModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    listener.onSendFeedBackDataCompleted("success");
+                } else {
+                    listener.onSendFeedBackDataCompleted(task.getException().toString());
+                }
+
+            }
+        });
+    }
+
+    public void getFeedBacks(final onRetrieveFeedBackDataCompleteListener listener) {
+        tableFeedBack.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<FeedBackModel> arrayList = new ArrayList<>();
+                arrayList.clear();
+                Log.e(TAG, "onDataChange: UsersList" + snapshot);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    FeedBackModel feedBackModel = dataSnapshot.getValue(FeedBackModel.class);
+                    arrayList.add(feedBackModel);
+                }
+                listener.onRetrieveFeedBackDataCompleted(arrayList);
+                arrayList.clear();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onRetrieveFeedBackDataCompleted(null);
             }
         });
     }
 
 
+    public interface onRetrieveFeedBackDataCompleteListener {
+        void onRetrieveFeedBackDataCompleted(ArrayList<FeedBackModel> models);
+    }
+
+    public interface onSendFeedBackDataCompleteListener {
+        void onSendFeedBackDataCompleted(String models);
+    }
+
     public interface onQuerySparePartsDataCompleteListener {
         void onSparePartsDataCompleted(ArrayList<PostModel> models);
     }
+
     public interface onQueryWorkShopDataCompleteListener {
         void onQueryWorkShopDataCompleteListener(ArrayList<WorkShopModel> models);
     }
+
     public void sendPost(final PostModel postModel, final User currentUser, Uri newPostImgUri,
                          final OnPostCompleteListener listener) {
         uploadFile(newPostImgUri, folderPosts.child(System.currentTimeMillis()
@@ -394,6 +357,7 @@ public class FirebaseDatabaseHelper {
 
 
     }
+
     public interface OnPostCompleteListener {
         void onPostCompleted(String isSuccessful);
     }
@@ -753,11 +717,80 @@ public class FirebaseDatabaseHelper {
         }
     }
 
+    public void queryMessages(String cat, final OnQueryMessagesDataCompleteListener listener) {
+
+
+        final Query query = tblProposal.child(cat).orderByChild("Messages");
+
+        tableChats.child(cat).child("Messages").addValueEventListener(new ValueEventListener() {
+            ArrayList<MessageModel> arrayList = new ArrayList<>();
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e(TAG, "onDataChange: MESSAGES" + dataSnapshot);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.e(TAG, "onDataChange: messages" + dataSnapshot.getValue());
+                    MessageModel single = snapshot.getValue(MessageModel.class);
+                    arrayList.add(single);
+                }
+
+                listener.onMessagesDataLoaded(arrayList);
+                query.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onMessagesDataLoaded(null);
+            }
+        });
+    }
+
+    public void sendMessage(final MessageModel model, final String title) {
+        tableChats.child(title).child("Messages").child(model.getMessageId()).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "Message Send ", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public interface OnQueryMessagesDataCompleteListener {
+        public void onMessagesDataLoaded(ArrayList<MessageModel> messageModelArrayList);
+    }
+
     public void updateToken(String token, String uid) {
         tableUser.child(uid).child("token").setValue(token);
 
     }
 
+    public void queryChats(final User currentUser, final OnQueryChatsDataCompleteListener listener) {
+
+        //  final Query query = tableChats.orderByChild(cat).equalTo(uid);
+        tableUser.child(currentUser.getUid()).child("ChatList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e(TAG, "onDataChange: Chats" + dataSnapshot);
+                ArrayList<ChatModel> arrayList = new ArrayList<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    final ChatModel chatModel = snapshot.getValue(ChatModel.class);
+                    Log.e(TAG, "onDataChange: Name" + chatModel.getName());
+                    arrayList.add(chatModel);
+                }
+                listener.onChattDataLoaded(arrayList);
+                tableChats.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onChattDataLoaded(null);
+            }
+        });
+    }
+
+    public interface OnQueryChatsDataCompleteListener {
+        public void onChattDataLoaded(ArrayList<ChatModel> studentlist);
+    }
 
     public interface OnSaveUserCompleteListener {
         void onSaveUserComplete(boolean isSuccessful);

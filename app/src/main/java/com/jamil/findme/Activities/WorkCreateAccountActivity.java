@@ -1,7 +1,6 @@
 package com.jamil.findme.Activities;
 
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,7 +44,7 @@ public class WorkCreateAccountActivity extends AppCompatActivity implements Fire
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workshop_createaccount);
-intitViews();
+        intitViews();
         firebaseDatabaseHelper = new FirebaseDatabaseHelper(this);
 
         btnRegisterStudent.setOnClickListener(new View.OnClickListener() {
@@ -73,14 +72,6 @@ intitViews();
             }
         });
 
-    /*    broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Toast.makeText(context, "its if phase", Toast.LENGTH_SHORT).show();
-            }
-        };
-        registerReceiver(broadcastReceiver, new IntentFilter(MyFirebaseInstanceIDService.TOKEN_BROADCAST));
-*/
         ivProfileTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +84,21 @@ intitViews();
 
     }
 
+
+
+    @Override
+    public void onLoginSignupSuccess(User user) {
+        progressDialog.dismiss();
+        startActivity(new Intent(WorkCreateAccountActivity.this, MainActivity.class));
+        finish();
+        Toast.makeText(WorkCreateAccountActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLoginSignupFailure(String failureMessage) {
+        progressDialog.dismiss();
+        Toast.makeText(this, "Failed to create account: " + failureMessage, Toast.LENGTH_SHORT).show();
+    }
     private void intitViews() {
 
         etWorkShopName = findViewById(R.id.etsvWorkShopName);
@@ -108,21 +114,6 @@ intitViews();
         setupSpinners();
         setupProgressDialog();
         btnRegisterStudent = findViewById(R.id.btnsvRegister);
-    }
-
-
-    @Override
-    public void onLoginSignupSuccess(User user) {
-        progressDialog.dismiss();
-        startActivity(new Intent(WorkCreateAccountActivity.this, MainActivity.class));
-        finish();
-        Toast.makeText(WorkCreateAccountActivity.this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onLoginSignupFailure(String failureMessage) {
-        progressDialog.dismiss();
-        Toast.makeText(this, "Failed to create account: " + failureMessage, Toast.LENGTH_SHORT).show();
     }
 
     public boolean validate(WorkShopModel workShopModel) {

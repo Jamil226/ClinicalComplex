@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jamil.findme">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -9,7 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.createWorkShopAccount"></activity>
+        <activity android:name=".Activities.FeedBackList"></activity>
+        <activity
+            android:name=".Activities.SendFeedBack"
+            android:label="Report Business"
+            android:parentActivityName=".Activities.MainActivity" />
+        <activity
+            android:name=".Activities.ChatActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Activities.caNewWorkShop" />
         <activity android:name=".Activities.CreateNewUserAccount" />
         <activity android:name=".Activities.AddSparePart" />
         <activity android:name=".Activities.EditWorkShopInfo" />
@@ -28,7 +41,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:theme="@style/Base.Theme.AppCompat"
+            tools:ignore="MissingClass" />
         <activity
             android:name=".Activities.WorkCreateAccountActivity"
             android:theme="@style/AppTheme" />

@@ -59,15 +59,18 @@ public class SparePartsFragment extends Fragment implements FirebaseDatabaseHelp
         fbAddSparePart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddSparePart.class));
+               Intent intent= new Intent(getActivity(), AddSparePart.class);
+               startActivityForResult(intent,3);
+                sparePartsAdapter.notifyDataSetChanged();
                 arrayList.clear();
 
             }
         });
-        if(currentUser.getType().equals("User")){
-            fbAddSparePart.setVisibility(View.GONE);
-        }else{
+        if(currentUser.getType().equals("Admin")){
             fbAddSparePart.setVisibility(View.VISIBLE);
+        }else{
+            fbAddSparePart.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "Else Case", Toast.LENGTH_LONG).show();
         }
         rvSparePartsList = view.findViewById(R.id.rvSparePartsList);
         rvSparePartsList.setHasFixedSize(true);
@@ -78,20 +81,6 @@ public class SparePartsFragment extends Fragment implements FirebaseDatabaseHelp
         arrayList.clear();
         sparePartsAdapter.notifyDataSetChanged();
         firebaseDatabaseHelper.querySparePartsData(this);
-        rvSparePartsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && !fbAddSparePart.isShown())
-                    fbAddSparePart.show();
-                else if (dy > 0 && fbAddSparePart.isShown())
-                    fbAddSparePart.hide();
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
 
         return view;
     }
