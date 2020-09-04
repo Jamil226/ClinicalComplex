@@ -10,7 +10,7 @@
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:cardElevation="10dp"
+        app:cardElevation="20dp"
         app:cardBackgroundColor="@color/colorPrimary">
 
         <TextView
@@ -29,12 +29,12 @@
         android:layout_height="match_parent"
         android:background="#fff"
         app:layout_constraintTop_toBottomOf="@+id/cardView3"
-         />
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Messages Yet"
+        android:text="No Feedback Available"
         android:textSize="25sp"
         android:visibility="visible"
         android:id="@+id/tvNoChats"

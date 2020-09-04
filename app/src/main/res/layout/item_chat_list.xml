@@ -25,6 +25,8 @@
                 android:id="@+id/ivUserChat"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="2dp"
                 android:layout_marginStart="@dimen/learn_spacing_control"
                 android:src="@drawable/cb3" />
 
@@ -41,17 +43,8 @@
                     android:layout_marginStart="@dimen/learn_spacing_standard_new"
                     android:text="Hi'its Zahid Iqbal"
                     android:textSize="@dimen/learn_font_size_normal"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nunito_bold" />
 
-                <TextView
-                    android:id="@+id/tvChatMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/learn_spacing_standard_new"
-                    android:layout_marginTop="@dimen/learn_spacing_control"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"
-                    tools:text="Hi Hannah ,Good morning!" />
 
             </LinearLayout>
         </LinearLayout>

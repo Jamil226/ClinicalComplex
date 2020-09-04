@@ -4,7 +4,7 @@
     android:id="@+id/activity_log_in"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -61,24 +61,27 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="25dp"
                         android:layout_marginBottom="10dp"
                         android:text="Subject"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etSubject"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:lines="1"
                         android:padding="8dp" />
 
@@ -90,18 +93,20 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="10dp"
                         android:text="Message"
+                        android:fontFamily="@font/nunito_regular"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/etMessage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginBottom="15dp"
-                        android:background="@android:drawable/editbox_background_normal"
                         android:inputType="textMultiLine"
                         android:padding="8dp"
                         android:gravity="top"
@@ -110,17 +115,18 @@
                     <Button
                         android:id="@+id/btnSendFeedBack"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginStart="50dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="50dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
-                        android:background="@drawable/login_btn"
+                        android:fontFamily="@font/nunito_regular"
+                        android:background="@color/colorPrimary"
                         android:text="Submit Report"
                         android:textAllCaps="false"
-                        android:textColor="#fcfcfc"
-                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
                         android:textStyle="bold"
 
                         />

@@ -75,7 +75,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.viewho
             super(itemView);
             tvChatList = itemView.findViewById(R.id.tvUserNameChatList);
             ivUserChat = itemView.findViewById(R.id.ivUserChat);
-            tvChatMessage = itemView.findViewById(R.id.tvChatMessage);
         }
     }
 }

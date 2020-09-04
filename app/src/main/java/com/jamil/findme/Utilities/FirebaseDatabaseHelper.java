@@ -1,8 +1,6 @@
 package com.jamil.findme.Utilities;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,13 +24,13 @@ import com.google.firebase.storage.UploadTask;
 import com.jamil.findme.Models.Admin;
 import com.jamil.findme.Models.ChatModel;
 import com.jamil.findme.Models.FeedBackModel;
+import com.jamil.findme.Models.GeneralRepairModel;
 import com.jamil.findme.Models.MessageModel;
 import com.jamil.findme.Models.PostModel;
 import com.jamil.findme.Models.User;
 import com.jamil.findme.Models.Visitor;
 import com.jamil.findme.Models.WorkShopModel;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +39,8 @@ public class FirebaseDatabaseHelper {
 
     private static final String TAG = "TAG";
     private Context context;
+    private DatabaseReference generalVehicleMaintenance = FirebaseDatabase.getInstance().getReference().child("VehicleMaintenance");
+    private DatabaseReference generalRepair = FirebaseDatabase.getInstance().getReference().child("GeneralRepair");
     private DatabaseReference tableFeedBack = FirebaseDatabase.getInstance().getReference().child("FeedBacks");
     private DatabaseReference tableUser = FirebaseDatabase.getInstance().getReference().child("Users");
     private DatabaseReference tableChats = FirebaseDatabase.getInstance().getReference("Chats");
@@ -48,6 +48,8 @@ public class FirebaseDatabaseHelper {
     private StorageReference folderProfilePics = FirebaseStorage.getInstance().getReference().child("profile_image");
     private DatabaseReference tablePosts = FirebaseDatabase.getInstance().getReference().child("SpareParts");
     private StorageReference folderPosts = FirebaseStorage.getInstance().getReference().child("spare_part_images/");
+    private StorageReference folderGeneralProducts = FirebaseStorage.getInstance().getReference().child("general_products/");
+    private StorageReference folderVehicleMaintenance = FirebaseStorage.getInstance().getReference().child("general_vehicle_maintenance/");
 
     public FirebaseDatabaseHelper(Context context) {
         this.context = context;
@@ -313,6 +315,103 @@ public class FirebaseDatabaseHelper {
                 listener.onRetrieveFeedBackDataCompleted(null);
             }
         });
+    }
+
+    public void queryGeneralArticles(final onGeneralRepairArticlesDataCompleteListener listener) {
+        generalRepair.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<GeneralRepairModel> arrayList = new ArrayList<>();
+                arrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    GeneralRepairModel visitor = dataSnapshot.getValue(GeneralRepairModel.class);
+                    arrayList.add(visitor);
+                }
+                listener.onRetrieveFeedBackDataCompleted(arrayList);
+                arrayList.clear();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onRetrieveFeedBackDataCompleted(null);
+            }
+        });
+
+    }
+    public void queryGeneralVehicleMaintenanceData(final onGeneralVehicleMaintenanceDataCompleteListener listener) {
+        generalVehicleMaintenance.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<GeneralRepairModel> arrayList = new ArrayList<>();
+                arrayList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    GeneralRepairModel visitor = dataSnapshot.getValue(GeneralRepairModel.class);
+                    arrayList.add(visitor);
+                }
+                listener.onGeneralVehicleMaintenanceDataCompleted(arrayList);
+                arrayList.clear();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onGeneralVehicleMaintenanceDataCompleted(null);
+            }
+        });
+
+    }
+
+    public void addGeneralRepairItem(final GeneralRepairModel postModel, Uri newPostImgUri, final onAddGeneralRepairItemCompleteListener listener) {
+        uploadFile(newPostImgUri, folderGeneralProducts, new OnUploadFileCompleteListener() {
+            @Override
+            public void onUploadFileComplete(String url) {
+                postModel.setImage(url);
+                generalRepair.child(postModel.getId()).setValue(postModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            listener.onAddGeneralRepairItemCompleted("success");
+                        } else {
+                            listener.onAddGeneralRepairItemCompleted(task.getException().toString());
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+    public void addGeneralVehicleMaintenanceItem(final GeneralRepairModel postModel, Uri newPostImgUri, final onAddGeneralVehicleMaintenanceItemCompleteListener listener) {
+        uploadFile(newPostImgUri, folderVehicleMaintenance, new OnUploadFileCompleteListener() {
+            @Override
+            public void onUploadFileComplete(String url) {
+                postModel.setImage(url);
+                generalVehicleMaintenance.child(postModel.getId()).setValue(postModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            listener.onVehicleMaintenanceItemCompleted("success");
+                        } else {
+                            listener.onVehicleMaintenanceItemCompleted(task.getException().toString());
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+    public interface onAddGeneralVehicleMaintenanceItemCompleteListener {
+        void onVehicleMaintenanceItemCompleted(String models);
+    }
+
+    public interface onAddGeneralRepairItemCompleteListener {
+        void onAddGeneralRepairItemCompleted(String models);
+    }
+
+    public interface onGeneralVehicleMaintenanceDataCompleteListener {
+        void onGeneralVehicleMaintenanceDataCompleted(ArrayList<GeneralRepairModel> models);
+    }  public interface onGeneralRepairArticlesDataCompleteListener {
+        void onRetrieveFeedBackDataCompleted(ArrayList<GeneralRepairModel> models);
     }
 
     public interface onRetrieveFeedBackDataCompleteListener {

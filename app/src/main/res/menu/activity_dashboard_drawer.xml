@@ -21,6 +21,14 @@
             android:icon="@drawable/ic_feedback"
             android:title="Feedback" />
         <item
+            android:id="@+id/nav_repair"
+            android:icon="@drawable/repair"
+            android:title="General Repair" />
+        <item
+            android:id="@+id/nav_vehicle"
+            android:icon="@drawable/car_service"
+            android:title="General Vehicle Maintenance" />
+        <item
             android:id="@+id/nav_about_us"
             android:icon="@drawable/about_icon"
             android:title="About" />

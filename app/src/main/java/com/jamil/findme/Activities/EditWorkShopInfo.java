@@ -210,8 +210,8 @@ public class EditWorkShopInfo extends AppCompatActivity {
             etPhone.requestFocus();
             return false;
         }
-        if (workShopModel.getPhone().length() < 11) {
-            etPhone.setError("Minimum length of password should be 6");
+        if (workShopModel.getPhone().length() < 7) {
+            etPhone.setError("Minimum length of contact no should be 7");
             etPhone.requestFocus();
             return false;
         }

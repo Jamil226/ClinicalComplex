@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:paddingTop="4dp"
+              android:fontFamily="@font/nunito_regular"      android:paddingTop="4dp"
                     android:text="asad"
                     android:textSize="14sp" />
 
@@ -54,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="its the message"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
@@ -66,6 +67,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="4dp"
                     android:text="asad "
+                    android:fontFamily="@font/nunito_light"
                     android:textSize="10sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -109,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:paddingTop="4dp"
+                    android:fontFamily="@font/nunito_light"
                     android:text="asad"
                     android:textSize="14sp" />
 
@@ -117,6 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
+                    android:fontFamily="@font/nunito_semibold"
                     android:text="Its the message "
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
@@ -129,6 +133,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="4dp"
                     android:text="asad "
+                    android:fontFamily="@font/nunito_light"
                     android:textSize="10sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

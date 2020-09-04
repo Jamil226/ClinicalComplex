@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
         try {
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(MainActivity.this);
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.addDrawerListener(toggle);
             toggle.syncState();
             navigationView.setNavigationItemSelectedListener(this);
-
 
 
         } catch (Exception e) {
@@ -157,6 +157,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewPager.setCurrentItem(2, true);
                 break;
 
+            case R.id.nav_about_us: {
+                startActivity(new Intent(MainActivity.this, ActivityAbout.class));
+            }
+            break;
+            case R.id.nav_repair: {
+                startActivity(new Intent(MainActivity.this
+                        ,GenaeralPepair.class));
+            }
+            break;
+            case R.id.nav_vehicle: {
+                startActivity(new Intent(MainActivity.this
+                        , ActivityVehicleMaintenance.class));
+            }
+            break;
             case R.id.nav_settings: {
                 if (currentUser.getType().equals("Admin")) {
                     startActivity(new Intent(MainActivity.this, FeedBackList.class));

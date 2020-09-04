@@ -37,8 +37,6 @@ public class FeedBackList extends AppCompatActivity implements FirebaseDatabaseH
         setContentView(R.layout.activity_feed_back_list);
 
         try {
-
-
             tvNoChats = findViewById(R.id.tvNoChats);
             rvChatList = findViewById(R.id.rvFeedBacKList);
             prefs = new PreferencesManager(this);

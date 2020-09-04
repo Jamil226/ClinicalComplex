@@ -135,8 +135,8 @@ public class UserSignUpActivity extends AppCompatActivity implements FirebaseDat
             etPhone.requestFocus();
             return false;
         }
-        if (visitor.getPhone().length() < 11) {
-            etPhone.setError("Minimum length of password should be 6");
+        if (visitor.getPhone().length() < 7) {
+            etPhone.setError("Minimum length of contact no should be 7");
             etPhone.requestFocus();
             return false;
         }

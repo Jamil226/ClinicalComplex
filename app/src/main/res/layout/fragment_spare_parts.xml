@@ -22,6 +22,7 @@
         android:text="No Data Found"
         android:textColor="#000"
         android:textSize="20sp"
+        android:fontFamily="@font/nunito_bold"
         app:layout_constraintBottom_toBottomOf="@+id/rvSparePartsList"
         app:layout_constraintEnd_toEndOf="@+id/rvSparePartsList"
         app:layout_constraintStart_toStartOf="parent"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="30dp">
+            android:layout_marginBottom="50dp">
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
@@ -31,8 +31,8 @@
                     android:id="@+id/ivStudent"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginTop="50dp"
-                    android:src="@drawable/cb3"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/image_default"
                     app:civ_border_color="#FFF"
                     app:civ_border_width="2dp" />
 
@@ -40,13 +40,15 @@
                 <EditText
                     android:id="@+id/etNameStudent"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="Name"
+                    android:hint="Full Name"
                     android:inputType="text"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -56,12 +58,14 @@
                 <EditText
                     android:id="@+id/etEmailStudent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
                     android:hint="Email Address"
                     android:inputType="textEmailAddress"
                     android:padding="8dp"
@@ -72,13 +76,15 @@
                 <EditText
                     android:id="@+id/etPasswordStudent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="password"
+                    android:hint="Password"
                     android:inputType="textPassword"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -88,13 +94,15 @@
                 <EditText
                     android:id="@+id/etConfirmPassStudent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:paddingRight="5dp"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="confirm password"
+                    android:hint="Confirm Password"
                     android:inputType="textPassword"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -103,25 +111,27 @@
                 <Spinner
                     android:id="@+id/spinnerLocation"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:theme="@android:style/Theme.Holo.Light.DarkActionBar"      android:hint="WorkShop Name"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:layout_gravity="center"
                     android:padding="8dp" />
 
                 <EditText
                     android:id="@+id/etPhoneStudent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="phone no"
+                    android:hint="Contact Number"
                     android:inputType="phone"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -130,12 +140,17 @@
 
                 <Button
                     android:id="@+id/btnRegisterStudent"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/nunito_regular"
+                    android:textSize="20sp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/login_btn"
-                    android:text="Register" />
+                    android:layout_marginBottom="30dp"
+                    android:background="@color/colorPrimary"
+                    android:text="Register"
+                    />
 
                 <ProgressBar
                     android:id="@+id/pbSignupStudent"

@@ -64,7 +64,7 @@
                     android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="40dp"
-                    android:src="@drawable/cb3"
+                    android:src="@drawable/image_default"
                     app:civ_border_color="@color/colorPrimaryDark"
                     app:civ_border_width="1dp" />
 
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="David Andrews"
-                    android:textColor="#1d1d1c"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="25sp"
                     android:textStyle="bold" />
 
@@ -87,38 +87,45 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="5dp"
                     android:text="Location"
-                    android:textColor="#70706c"
-                    android:textSize="18sp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:gravity="center">
 
                     <Button
                         android:id="@+id/tvContactUs"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/login_btn"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:background="@color/colorPrimary"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="Message"
-                        android:layout_margin="4dp"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Send Message"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />
                     <Button
                         android:id="@+id/tvCallUs"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:background="@drawable/login_btn"
+                        android:background="@color/colorPrimary"
                         android:paddingLeft="10dp"
-                        android:layout_margin="4dp"
                         android:paddingRight="10dp"
-                        android:text="Call"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Call Now"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -129,11 +136,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="25dp"
-                    android:background="#9bd6d6d6"
                     android:padding="1dp">
-
                 </LinearLayout>
-
 
                 <TextView
                     android:id="@+id/tvNameWorkShopProfile"
@@ -144,8 +148,9 @@
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:text="Agency Name"
-                    android:textColor="#1e333d"
-                    android:textSize="18sp"
+                    android:textSize="25sp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold" />
 
 
@@ -155,12 +160,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:text="chak No 89/6R Sahiwal"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                    android:text="Bahir Wala Adda Sahiwal"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito_regular"
+                    />
 
                 <TextView
                     android:id="@+id/tvEmailWorkShopProfile"
@@ -168,11 +174,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:text="arslantahir80@gmail.com"
+                    android:text="husnain@gmail.com"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito_regular"
+                    />
 
                 <TextView
                     android:id="@+id/tvContactWorkShopProfile"
@@ -180,10 +188,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:text="03006928389"
-                    android:textSize="20sp" />
+                    android:text="03001234567"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito_regular"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -191,7 +202,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="25dp"
-                    android:background="#9bd6d6d6"
                     android:padding="1dp">
 
                 </LinearLayout>
@@ -204,8 +214,11 @@
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:text="Arslan tahir skfslfjsdkfls"
-                    android:textSize="18sp" />
+                    android:text="Skills"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito_regular"
+                    />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

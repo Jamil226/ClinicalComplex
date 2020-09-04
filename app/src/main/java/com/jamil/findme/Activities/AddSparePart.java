@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
     private User currentUser;
     private PreferencesManager prefs;
     private ProgressDialog progressDialog;
+    LinearLayout llAddPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +57,9 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
             prefs = new PreferencesManager(this);
             currentUser = prefs.getCurrentUser();
             initViews();
-            ivProduct.setOnClickListener(new View.OnClickListener() {
+            llAddPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e(TAG, "onClick: You Clik the Image");
                     CropImage.activity()
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setAspectRatio(40, 40)
@@ -162,6 +163,7 @@ public class AddSparePart extends AppCompatActivity implements FirebaseDatabaseH
         etaspPPrice = findViewById(R.id.etaspPPrice);
         etaspDesc = findViewById(R.id.etaspDesc);
         etaspPName = findViewById(R.id.etaspPName);
+        llAddPhoto = findViewById(R.id.llAddPhoto);
 
     }
 

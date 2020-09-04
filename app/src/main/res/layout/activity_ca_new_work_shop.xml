@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="30dp"
             app:cardCornerRadius="10dp"
@@ -37,7 +37,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="20dp">
@@ -47,8 +47,8 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/cb3"
-                    app:civ_border_color="#FFF"
+                    android:src="@drawable/image_default"
+                    app:civ_border_color="@color/colorPrimary"
                     app:civ_border_width="2dp" />
 
                 <LinearLayout
@@ -62,14 +62,15 @@
                     <EditText
                         android:id="@+id/etTeacherName"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:hint="Name "
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Provider Name "
                         android:inputType="text"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -84,13 +85,15 @@
                     <EditText
                         android:id="@+id/etTeacherEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
                         android:hint="Email Address"
                         android:inputType="textEmailAddress"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -106,13 +109,15 @@
                     <EditText
                         android:id="@+id/etsvPhone"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:hint="phone no"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Service Contact Number"
                         android:inputType="phone"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -121,13 +126,15 @@
                 <Spinner
                     android:id="@+id/spinnersvLocation"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="30dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:padding="8dp" />
+                    android:background="@drawable/custome_et"
+                    android:fontFamily="@font/nunito_regular"
+                    android:padding="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
 
 
                 <LinearLayout
@@ -140,13 +147,15 @@
                     <EditText
                         android:id="@+id/etsvWorkShopName"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:hint="WorkShop Name"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Service Title"
                         android:inputType="text"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -161,13 +170,15 @@
                     <EditText
                         android:id="@+id/etsvDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:hint="Description"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Service Description"
                         android:inputType="text"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -182,13 +193,15 @@
                     <EditText
                         android:id="@+id/etsvAddress"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
                         android:hint="Address"
                         android:inputType="text"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -204,13 +217,15 @@
                     <EditText
                         android:id="@+id/etsvPassword"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:hint="password"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Password"
                         android:inputType="textPassword"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -218,32 +233,44 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginRight="30dp">
+                    android:layout_marginRight="30dp"
+                    android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/etsvConfirmPassword"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="center"
-                        android:hint="confirm password"
+                        android:background="@drawable/custome_et"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Confirm password"
                         android:inputType="textPassword"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:textColorHint="#B6000000"
                         android:textSize="18sp" />
+
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/btnsvRegister"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="30dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@drawable/login_btn"
-                    android:text="Register" />
+                    android:background="@color/colorPrimary"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="Register"
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

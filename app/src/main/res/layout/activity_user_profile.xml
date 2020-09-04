@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".Activities.UserProfileActivity">
 
 
@@ -50,7 +51,7 @@
         android:layout_height="120dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
-        android:src="@drawable/cb3"
+        android:src="@drawable/image_default"
         app:civ_border_color="@color/colorPrimaryDark"
         app:civ_border_width="1dp" />
 
@@ -61,8 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="David Andrews"
-        android:textColor="#1d1d1c"
+        android:text="Muhammad Jamil"
+        android:fontFamily="@font/nunito_regular"
+        android:textColor="@color/colorPrimary"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -71,10 +73,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunito_regular"
         android:text="Project Manager"
-        android:textColor="#70706c"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -84,48 +87,57 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="15 Year Experiance"
-        android:textColor="#70706c"
-        android:textSize="14sp" />
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunito_regular"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvLocationUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Location"
-        android:textColor="#70706c"
-        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunito_regular"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:gravity="center">
 
         <Button
             android:id="@+id/tvContactUs"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/login_btn"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="Message"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/nunito_regular"
+            android:textSize="20sp"
             android:layout_margin="4dp"
             android:textAllCaps="false"
             android:textColor="@color/white" />
         <Button
+            android:fontFamily="@font/nunito_regular"
             android:id="@+id/tvCallUsUser"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/login_btn"
+            android:background="@color/colorPrimary"
             android:paddingLeft="10dp"
             android:layout_margin="4dp"
             android:paddingRight="10dp"
             android:text="Call"
+            android:textSize="20sp"
             android:textAllCaps="false"
             android:textColor="@color/white" />
     </LinearLayout>

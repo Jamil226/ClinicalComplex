@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="30dp">
 
@@ -40,13 +40,15 @@
                 <EditText
                     android:id="@+id/etNameStudentEditVisitor"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="Name"
+                    android:hint="Full Name"
                     android:inputType="text"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -73,13 +75,15 @@
                 <EditText
                     android:id="@+id/etPasswordStudentEditVisitor"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="password"
+                    android:hint="Password"
                     android:inputType="textPassword"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -89,13 +93,15 @@
                 <EditText
                     android:id="@+id/etConfirmPassStudentEditVisitor"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="confirm password"
+                    android:hint="Confirm Password"
                     android:inputType="textPassword"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
@@ -104,41 +110,47 @@
                 <Spinner
                     android:id="@+id/spinnerLocationEditVisitor"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:theme="@android:style/Theme.Holo.Light.DarkActionBar"      android:hint="WorkShop Name"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:layout_gravity="center"
                     android:padding="8dp" />
 
                 <EditText
                     android:id="@+id/etPhoneStudentEditVisitor"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:fontFamily="@font/nunito_regular"
+                    android:background="@drawable/custome_et"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@android:drawable/editbox_background_normal"
-                    android:gravity="center"
-                    android:hint="phone no"
+                    android:hint="Contact Number"
                     android:inputType="phone"
                     android:padding="8dp"
                     android:textColorHint="#B6000000"
                     android:textSize="18sp" />
-
-
                 <Button
                     android:id="@+id/btnRegisterStudentEditVisitor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/nunito_regular"
                     android:layout_marginTop="15dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/login_btn"
-                    android:text="Update UserInfo" />
+                    android:textColor="@color/white"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
+                    android:background="@color/colorPrimary"
+                    android:text="Update User Information" />
 
                 <ProgressBar
                     android:id="@+id/pbSignupStudent"

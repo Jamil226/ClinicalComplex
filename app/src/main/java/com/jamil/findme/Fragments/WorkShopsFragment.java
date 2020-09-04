@@ -103,12 +103,12 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
         }
     }
 
-    @Override
+   /* @Override
     public void onStart() {
         super.onStart();
         arrayListProposal.clear();
         firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
         workShopsAdapter.notifyDataSetChanged();
-    }
+    }*/
 
 }

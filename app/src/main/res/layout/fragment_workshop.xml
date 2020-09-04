@@ -19,6 +19,7 @@
         android:visibility="gone"
         android:textColor="#000"
         android:textSize="25sp"
+        android:fontFamily="@font/nunito_bold"
         app:layout_constraintBottom_toBottomOf="@+id/rvWorkShopList"
         app:layout_constraintEnd_toEndOf="@+id/rvWorkShopList"
         app:layout_constraintStart_toStartOf="@+id/rvWorkShopList"

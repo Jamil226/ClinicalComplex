@@ -70,7 +70,6 @@ public class SparePartsFragment extends Fragment implements FirebaseDatabaseHelp
             fbAddSparePart.setVisibility(View.VISIBLE);
         }else{
             fbAddSparePart.setVisibility(View.GONE);
-            Toast.makeText(getContext(), "Else Case", Toast.LENGTH_LONG).show();
         }
         rvSparePartsList = view.findViewById(R.id.rvSparePartsList);
         rvSparePartsList.setHasFixedSize(true);
