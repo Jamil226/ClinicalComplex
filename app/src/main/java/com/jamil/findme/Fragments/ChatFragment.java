@@ -78,7 +78,7 @@ public class ChatFragment extends Fragment implements FirebaseDatabaseHelper.OnQ
     @Override
     public void onChattDataLoaded(ArrayList<ChatModel> studentlist) {
         if (studentlist.size() < 1) {
-            Toast.makeText(getContext(), "No Data", Toast.LENGTH_SHORT).show();
+            tvNoChats.setVisibility(View.VISIBLE);
         } else {
             tvNoChats.setVisibility(View.GONE);
             rvChatList.setVisibility(View.VISIBLE);

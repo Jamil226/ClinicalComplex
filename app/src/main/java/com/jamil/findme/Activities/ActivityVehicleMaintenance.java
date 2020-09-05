@@ -29,7 +29,6 @@ public class ActivityVehicleMaintenance extends AppCompatActivity implements Fir
     private ArrayList<GeneralRepairModel> arrayList = new ArrayList<>();
     private User currentUser;
     private PreferencesManager prefs;
-    private ProgressBar pbFragmentSupervisor;
     FloatingActionButton fbAddArticle;
     GeneralRepairAdapter generalRepairAdapter;
     private TextView tvNoData;

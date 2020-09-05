@@ -228,7 +228,7 @@ public class FirebaseDatabaseHelper {
         tableUser.child(uid).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(context, "User Data Delweted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "User  Deleted", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -504,7 +504,6 @@ public class FirebaseDatabaseHelper {
         tableChats.child(title).child("Messages").child(model.getMessageId()).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(context, "Message Send ", Toast.LENGTH_SHORT).show();
             }
         });
     }

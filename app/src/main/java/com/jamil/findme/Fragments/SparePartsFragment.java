@@ -2,6 +2,7 @@ package com.jamil.findme.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,8 @@ public class SparePartsFragment extends Fragment implements FirebaseDatabaseHelp
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_spare_parts, container, false);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         firebaseDatabaseHelper = new FirebaseDatabaseHelper(getActivity());
         prefs = new PreferencesManager(getActivity());
         currentUser = prefs.getCurrentUser();

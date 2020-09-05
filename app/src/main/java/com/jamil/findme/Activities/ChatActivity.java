@@ -55,8 +55,6 @@ public class ChatActivity extends AppCompatActivity implements FirebaseDatabaseH
             tvChatName = findViewById(R.id.tvChatName);
             etMessage = findViewById(R.id.etMessage);
             ivSendMessage = findViewById(R.id.ivSendMessage);
-            //Toast.makeText(this, "" + chatModel.getTitle(), Toast.LENGTH_SHORT).show();
-            //initialize preference
             prefs = new PreferencesManager(this);
             currentUser = prefs.getCurrentUser();
             firebaseDatabaseHelper = new FirebaseDatabaseHelper(ChatActivity.this);
@@ -67,6 +65,7 @@ public class ChatActivity extends AppCompatActivity implements FirebaseDatabaseH
             messageAdapter = new MessageAdapter(arrayList, ChatActivity.this);
             rvChatActivity.setAdapter(messageAdapter);
             arrayList.clear();
+            messageAdapter.notifyDataSetChanged();
             Glide.with(this).load(chatModel.getImage()).into(ivUser);
             tvChatName.setText(chatModel.getName());
             ivSendMessage.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +85,6 @@ public class ChatActivity extends AppCompatActivity implements FirebaseDatabaseH
                         messageModel.setTime(date);
                         firebaseDatabaseHelper.sendMessage(messageModel, chatModel.getId());
                         etMessage.setText("");
-
                         arrayList.clear();
                     }
                 }
@@ -96,7 +94,6 @@ public class ChatActivity extends AppCompatActivity implements FirebaseDatabaseH
                 @Override
                 public void onClick(View v) {
                     finish();
-                    Toast.makeText(ChatActivity.this, "Cant move back yet.", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {
