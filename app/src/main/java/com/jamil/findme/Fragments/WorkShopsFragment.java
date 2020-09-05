@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -24,6 +23,8 @@ import com.jamil.findme.Utilities.FirebaseDatabaseHelper;
 import com.jamil.findme.Utilities.PreferencesManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelper.onQueryWorkShopDataCompleteListener {
@@ -94,6 +95,7 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
             pbFragmentProposal.setVisibility(View.GONE);
             rvProposalList.setVisibility(View.GONE);
         } else {
+            Collections.reverse(models);
             tvNothingToShow.setVisibility(View.GONE);
             rvProposalList.setVisibility(View.VISIBLE);
             arrayListProposal.addAll(models);
@@ -102,13 +104,4 @@ public class WorkShopsFragment extends Fragment implements FirebaseDatabaseHelpe
             models.clear();
         }
     }
-
-   /* @Override
-    public void onStart() {
-        super.onStart();
-        arrayListProposal.clear();
-        firebaseDatabaseHelper.queryWorkShopData(currentUser.getUid(), currentUser.getType(), this);
-        workShopsAdapter.notifyDataSetChanged();
-    }*/
-
 }

@@ -100,13 +100,4 @@ public class SparePartsFragment extends Fragment implements FirebaseDatabaseHelp
         }
     }
 
-/*
-    @Override
-    public void onSupervisorDataLoaded(ArrayList<Supervisor> supervisorsList) {
-        arrayList.addAll(supervisorsList);
-        pbFragmentSupervisor.setVisibility(View.GONE);
-       // supervisorAdapter.notifyDataSetChanged();
-        supervisorAdapter.notifyItemInserted(arrayList.size());
-    }
-*/
 }

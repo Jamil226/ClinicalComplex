@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
+
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvInvoice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -19,7 +22,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,17 +43,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@drawable/login_btn"
+                    android:background="@drawable/btn_backgreound"
                     android:fontFamily="@font/nunito_bold"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textColor="@color/black"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Dummy"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -61,7 +64,7 @@
 
                 <TextView
                     android:id="@+id/tvpNamespitem"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
                     android:padding="5dp"
@@ -69,14 +72,20 @@
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
-            </LinearLayout>
+                <Button
+                    android:id="@+id/btnCreatePdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@color/colorPrimaryDark"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Order Now"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="#9B9898" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -88,10 +97,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_bold"
-                 android:visibility="visible"   android:padding="5dp"
+                    android:padding="5dp"
                     android:text="Available at :"
                     android:textColor="#F44336"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tvWorkShopspitem"
@@ -112,36 +122,19 @@
                 android:layout_marginLeft="5dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:padding="4dp"
-                android:visibility="gone"
                 android:text="About:"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginRight="10dp"
-                android:fontFamily="@font/nunito_regular"
-                android:padding="10dp"
-                android:text="desc" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="#9B9898"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimaryDark"
                 android:orientation="horizontal"
                 android:visibility="visible"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:weightSum="2">
 
                 <TextView
@@ -173,8 +166,27 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#9B9898" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/nunito_regular"
+                android:padding="10dp"
+                android:text="desc" />
 
         </LinearLayout>
+
+
     </androidx.cardview.widget.CardView>
 
 
